@@ -26,23 +26,27 @@ function App() {
           <Button>
             <Link to="/">Home</Link>
           </Button>
-          <Button>
-            <Link to="/createpost">Create</Link>
-          </Button>
-          {!isAuth ? 
+          {!isAuth ? (
             <Button>
               <Link to="/login">Login</Link> 
-            </Button> : 
-            <Button onClick={logUserOut}
-              style={{
-                color:"white"           
-              }}>Log Out</Button>
-          }
+            </Button>
+           ) : (
+            <>
+              <Button>
+                <Link to="/createpost">Create</Link>
+              </Button>
+              <Button onClick={logUserOut}
+                style={{
+                  color:"white"           
+                }}>Log Out
+              </Button>
+            </>
+           )}
         </Toolbar>
       </AppBar>
       <Routes>
         <Route path="/" element={<Home />}/>
-        <Route path="/createpost" element={<CreatePost />}/>
+        <Route path="/createpost" element={<CreatePost isAuth={isAuth}/>}/>
         <Route path="/login" element={<Login setAuth={setAuth}/>}/>
       </Routes>
     </Router>
