@@ -10,7 +10,7 @@ import { signOut } from "firebase/auth";
 import { AppBar, Toolbar, Button } from '@material-ui/core';
 
 function App() {
-  const [isAuth, setAuth] = useState(false);
+  const [isAuth, setAuth] = useState(localStorage.getItem("isAuth"));
   const logUserOut = () => {
     signOut(auth).then(() => {
       localStorage.clear();
@@ -45,7 +45,7 @@ function App() {
         </Toolbar>
       </AppBar>
       <Routes>
-        <Route path="/" element={<Home />}/>
+        <Route path="/" element={<Home isAuth={isAuth}/>}/>
         <Route path="/createpost" element={<CreatePost isAuth={isAuth}/>}/>
         <Route path="/login" element={<Login setAuth={setAuth}/>}/>
       </Routes>

@@ -37,7 +37,7 @@ function CreatePost({isAuth}) {
                     onChange={(e) => {setTitle(e.currentTarget.value)}}>
             </Input>
             <InputLabel>Post: </InputLabel>
-            <TextField multiline="true"
+            <TextField multiline={true}
                         onChange={(e) => {setPostText(e.currentTarget.value)}}>
             </TextField>
         </CardContent>

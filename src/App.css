@@ -18,6 +18,10 @@ a {
   justify-content: center;
 }
 
+.postHeader {
+  display: flex;
+}
+
 /* GOOGLE BUTTON */
 .login-with-google-btn {
   cursor: pointer;
