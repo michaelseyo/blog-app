@@ -3,11 +3,21 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Home from "./pages/Home";
 import CreatePost from "./pages/CreatePost";
 import Login from "./pages/Login";
+import ErrorPage from "./pages/ErrorPage";
 import { auth } from "./firebase-config";
 import { useState } from "react";
 import { signOut } from "firebase/auth";
 
 import { AppBar, Toolbar, Button } from '@material-ui/core';
+import { createTheme, ThemeProvider } from '@material-ui/core';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#FF7F50'
+    }
+  }
+})
 
 function App() {
   const [isAuth, setAuth] = useState(localStorage.getItem("isAuth"));
@@ -20,36 +30,39 @@ function App() {
   }
 
   return (
-    <Router>
-      <AppBar color="primary" position="sticky">
-        <Toolbar>
-          <Button>
-            <Link to="/">Home</Link>
-          </Button>
-          {!isAuth ? (
+    <ThemeProvider theme={theme}>
+      <Router>
+        <AppBar color="primary" position="sticky">
+          <Toolbar>
             <Button>
-              <Link to="/login">Login</Link> 
+              <Link to="/">Home</Link>
             </Button>
-           ) : (
-            <>
+            {!isAuth ? (
               <Button>
-                <Link to="/createpost">Create</Link>
+                <Link to="/login">Login</Link> 
               </Button>
-              <Button onClick={logUserOut}
-                style={{
-                  color:"white"           
-                }}>Log Out
-              </Button>
-            </>
-           )}
-        </Toolbar>
-      </AppBar>
-      <Routes>
-        <Route path="/" element={<Home isAuth={isAuth}/>}/>
-        <Route path="/createpost" element={<CreatePost isAuth={isAuth}/>}/>
-        <Route path="/login" element={<Login setAuth={setAuth}/>}/>
-      </Routes>
-    </Router>
+            ) : (
+              <>
+                <Button>
+                  <Link to="/createpost">Create</Link>
+                </Button>
+                <Button onClick={logUserOut}
+                  style={{
+                    color:"white"           
+                  }}>Log Out
+                </Button>
+              </>
+            )}
+          </Toolbar>
+        </AppBar>
+        <Routes>
+          <Route path="/" element={<Home isAuth={isAuth}/>}/>
+          <Route path="/createpost" element={<CreatePost isAuth={isAuth}/>}/>
+          <Route path="/login" element={<Login setAuth={setAuth}/>}/>
+          <Route path="*" element={<ErrorPage />}/>
+        </Routes>
+      </Router>
+    </ThemeProvider>
   );
 }
 

@@ -1,8 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { collection, deleteDoc, getDocs, doc } from 'firebase/firestore';
 import { auth, db } from '../firebase-config'
+import Card from "@material-ui/core/Card"
+import Button from "@material-ui/core/Button";
+import Container from "@material-ui/core/Container";
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
+import { makeStyles, Typography } from "@material-ui/core"
+
+const useStyles = makeStyles({
+    btn: {
+        margin: 10
+    }, 
+    post: {
+        margin: 40,
+        padding: 20
+    },
+    postHeader: {
+        display: "flex",
+        alignItems: "center"
+    }
+});
 
 function Home({isAuth}) {
+    const classes = useStyles();
     const [postList, setPostList] = useState([]);
     const postsCollectionRef = collection(db, "posts");
 
@@ -24,33 +44,41 @@ function Home({isAuth}) {
     }
 
     return (
-    <div className="homePage"> 
+    <Container> 
         {postList.map((post) => {
         return (
-            <div className="post" key={post.id}> 
-                <div className="postHeader">
-                    <div className="title"> 
-                        <h1>{post.title}</h1>
-                    </div>
-                    <div className="deletePost">
-                        {isAuth && auth.currentUser.uid === post.author.id && (
-                            <button onClick={() => {
+            <Card className={classes.post} key={post.id}> 
+                <div className={classes.postHeader}>
+                    <Typography
+                        variant="h4"
+                        component="h2"
+                    >   
+                        {post.title}
+                    </Typography>
+                    {isAuth && auth.currentUser.uid === post.author.id && (
+                        <Button 
+                            className = {classes.btn}
+                            onClick={() => {
                                 deletePost(post.id)
                             }}
-                            >
-                            &#128465;
-                            </button>
-                        )}   
-                    </div>
+                            startIcon={<DeleteOutlineIcon/>}
+                        >
+                            Delete
+                        </Button>
+                    )}   
                 </div>
-                <div className="postTextContainer">
+                <Typography>
                     {post.postText}
-                </div>
-                <h3>@{post.author.name}</h3>
-            </div>
+                </Typography>
+                <Typography
+                    variant="h6"
+                >
+                    @{post.author.name}
+                </Typography>
+            </Card>
         );
         })} 
-    </div>
+    </Container>
     );
 }
 

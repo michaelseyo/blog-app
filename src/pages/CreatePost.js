@@ -1,25 +1,51 @@
 import React, { useState, useEffect } from "react";
-import { Button, Card, CardContent, Input, InputLabel, Typography, TextField } from "@material-ui/core"
 import { addDoc, collection } from "firebase/firestore";
 import { auth, db } from "../firebase-config";
 import { useNavigate } from "react-router-dom";
+import { Button, Container, CardContent, Typography, TextField } from "@material-ui/core"
+import { makeStyles } from "@material-ui/core"
+
+const useStyles = makeStyles({
+    postHeader: {
+        marginTop: 20
+    },
+    field: {
+        marginTop: 10,
+        marginBottom: 10,
+        display: "block"
+    }
+});
 
 function CreatePost({isAuth}) {
+    const classes = useStyles();
     const [title, setTitle] = useState("");
+    const [titleError, setTitleError] = useState(false);
     const [postText, setPostText] = useState("");
+    const [postTextError, setPostTextError] = useState(false);
 
     const postsCollectionRef = collection(db, "posts");
     let navigate = useNavigate();
     const createPost = async () => {
-        await addDoc(postsCollectionRef, {
-            title,
-            postText,
-            author: {
-                name: auth.currentUser.displayName,
-                id: auth.currentUser.uid
-            }
-        });
-        navigate("/");
+        setTitleError(false);
+        setPostTextError(false);
+        if (title && postText) {
+            await addDoc(postsCollectionRef, {
+                title,
+                postText,
+                author: {
+                    name: auth.currentUser.displayName,
+                    id: auth.currentUser.uid
+                }
+            });
+            navigate("/");
+        } else {
+            if (!title) {
+                setTitleError(true);
+            } 
+            if (!postText) { 
+                setPostTextError(true);
+            } 
+        }
     }
 
     useEffect(() => {
@@ -29,20 +55,43 @@ function CreatePost({isAuth}) {
     }, []);
 
     return (
-    <Card>
-        <Typography variant="h4">Create a post</Typography>
-        <CardContent>
-            <InputLabel>Title: </InputLabel>
-            <Input placeholder="Title..." 
-                    onChange={(e) => {setTitle(e.currentTarget.value)}}>
-            </Input>
-            <InputLabel>Post: </InputLabel>
-            <TextField multiline={true}
-                        onChange={(e) => {setPostText(e.currentTarget.value)}}>
-            </TextField>
-        </CardContent>
-        <Button onClick={createPost}> Submit </Button>
-    </Card>
+        <Container>
+            <Typography 
+                className={classes.postHeader}
+                variant="h4"
+                component="h2"
+            >
+                Create a post
+            </Typography>
+            <CardContent>
+                <TextField
+                    className={classes.field}
+                    label="Title"
+                    fullWidth
+                    required
+                    variant="outlined"
+                    onChange={(e) => {setTitle(e.currentTarget.value)}}
+                    error={titleError}
+                />
+                <TextField 
+                    className={classes.field}
+                    label="Post"
+                    fullWidth
+                    required
+                    variant="outlined"
+                    multiline
+                    rows={4}
+                    onChange={(e) => {setPostText(e.currentTarget.value)}}
+                    error={postTextError}
+                />
+            </CardContent>
+            <Button 
+                variant="outlined" 
+                onClick={createPost}
+            > 
+                Submit 
+            </Button>
+        </Container>
     );
 }
 
