@@ -4,6 +4,7 @@ import { auth, db } from "../firebase-config";
 import { useNavigate } from "react-router-dom";
 import { Button, Container, CardContent, Typography, TextField } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core"
+import { format } from "date-fns"
 
 const useStyles = makeStyles({
     postHeader: {
@@ -28,10 +29,13 @@ function CreatePost({isAuth}) {
     const createPost = async () => {
         setTitleError(false);
         setPostTextError(false);
+
+        const date = format(new Date(), "d MMM yyyy h:mm aaa");
         if (title && postText) {
             await addDoc(postsCollectionRef, {
                 title,
                 postText,
+                date,
                 author: {
                     name: auth.currentUser.displayName,
                     id: auth.currentUser.uid

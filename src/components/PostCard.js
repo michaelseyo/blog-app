@@ -1,20 +1,20 @@
 import React from "react";
 import { auth, db } from "../firebase-config";
 import { deleteDoc, doc } from "firebase/firestore";
-import { Button, Card, Typography, makeStyles } from "@material-ui/core";
+import { Card, CardHeader, Typography, makeStyles, IconButton, CardContent } from "@material-ui/core";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 
 const useStyles = makeStyles({
-    btn: {
-        margin: 10
-    }, 
     post: {
         margin: 40,
         padding: 20
     },
-    postHeader: {
+    name: {
+        flexGrow: 1
+    },
+    footer: {
         display: "flex",
-        alignItems: "center"
+        justifyContent: "space-between"
     }
 });
 
@@ -27,34 +27,48 @@ function PostCard({isAuth, post}) {
     }
 
     return (
-        <Card className={classes.post} key={post.id}> 
-            <div className={classes.postHeader}>
-                <Typography
-                    variant="h4"
-                    component="h2"
-                >   
-                    {post.title}
-                </Typography>
-                {isAuth && auth.currentUser.uid === post.author.id && (
-                    <Button 
-                        className = {classes.btn}
+        <Card 
+            className={classes.post} 
+            key={post.id}
+        > 
+            <CardHeader 
+                title={post.title}
+                titleTypographyProps={{
+                    variant: "h4"
+                }}
+                action={
+                    isAuth && auth.currentUser.uid === post.author.id && <IconButton
                         onClick={() => {
                             deletePost(post.id)
                         }}
-                        startIcon={<DeleteOutlineIcon/>}
                     >
-                        Delete
-                    </Button>
-                )}   
+                        <DeleteOutlineIcon/>
+                    </IconButton>
+                }
+            />
+            <CardContent>
+                <Typography 
+                    variant="body2"
+                    color="textSecondary"
+                >
+                    {post.postText}
+                </Typography>
+            </CardContent>   
+            <div className={classes.footer}>
+                <Typography
+                        className={classes.name}
+                        variant="subtitle2"
+                        color="textSecondary"
+                    >
+                        @{post.author.name}
+                    </Typography>
+                    <Typography 
+                        variant="subtitle2"
+                        color="textSecondary"
+                    >
+                        {post.date}
+                    </Typography>
             </div>
-            <Typography>
-                {post.postText}
-            </Typography>
-            <Typography
-                variant="h6"
-            >
-                @{post.author.name}
-            </Typography>
         </Card>
     );
 }

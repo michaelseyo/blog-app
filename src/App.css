@@ -3,21 +3,6 @@
   padding: 0;
 }
 
-.App {
-  text-align: center;
-}
-
-a {
-  color: white;
-  text-decoration: none;
-}
-
-.center-align {
-  display: flex;
-  margin: 10px;
-  justify-content: center;
-}
-
 /* GOOGLE BUTTON */
 .login-with-google-btn {
   cursor: pointer;

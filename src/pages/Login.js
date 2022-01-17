@@ -2,8 +2,20 @@ import React from "react";
 import { auth, provider } from '../firebase-config';
 import { signInWithPopup } from 'firebase/auth';
 import { useNavigate } from "react-router-dom";
+import { Container, Typography, makeStyles } from "@material-ui/core"
+
+const useStyles = makeStyles({
+    centerAlign: {
+        display: "flex",
+        justifyContent: "center"
+    },
+    container: {
+        margin: 20
+    }
+});
 
 function Login({setAuth}) {
+    const classes = useStyles();
     let navigate = useNavigate();
 
     const signInWithGoogle = () => {
@@ -14,9 +26,11 @@ function Login({setAuth}) {
         });
     }
     return (
-        <div> 
-            <p className="center-align"> Sign in with Google to continue</p>
-            <div className="center-align"> 
+        <div className={classes.container}>
+            <Typography className={classes.centerAlign}> 
+                Sign in with Google to continue
+            </Typography>
+            <div className={classes.centerAlign}> 
                 <button className="login-with-google-btn" onClick={signInWithGoogle}>Sign in with Google</button>
             </div>
         </div>

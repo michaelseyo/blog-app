@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase-config'
-import Container from "@material-ui/core/Container";
+import { Container } from "@material-ui/core";
 import PostCard from "../components/PostCard"
 
 function Home({isAuth}) {
@@ -21,9 +21,9 @@ function Home({isAuth}) {
     }, [])
 
     return (
-        <Container> 
+        <Container>   
             {postList.map((post) => {
-                return <PostCard isAuth={isAuth} post={post}/>
+                return <PostCard isAuth={isAuth} post={post} key={post.id}/>
             })} 
         </Container>
     );
