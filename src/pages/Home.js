@@ -1,10 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase-config'
-import { Container } from "@material-ui/core";
-import PostCard from "../components/PostCard"
+import { Container, makeStyles } from "@material-ui/core";
+import PostCard from "../components/PostCard";
+import Infographic from "../components/Infographic";
+
+const useStyles = makeStyles({
+    homeContainer: {
+        margin: 20
+    }
+});
 
 function Home({isAuth}) {
+    const classes = useStyles();
     const [postList, setPostList] = useState([]);
     const postsCollectionRef = collection(db, "posts");
 
@@ -21,7 +29,8 @@ function Home({isAuth}) {
     }, [])
 
     return (
-        <Container>   
+        <Container className={classes.homeContainer}>
+            <Infographic> </Infographic>
             {postList.map((post) => {
                 return <PostCard isAuth={isAuth} post={post} key={post.id}/>
             })} 
