@@ -14,7 +14,7 @@ function Navbar({isAuth, logUserOut}) {
     return (
         <AppBar 
             color="primary" 
-            position="sticky"
+            position="fixed"
             elevation={0}
         >
             <Toolbar>

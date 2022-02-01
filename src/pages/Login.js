@@ -2,7 +2,7 @@ import React from "react";
 import { auth, provider } from '../firebase-config';
 import { signInWithPopup } from 'firebase/auth';
 import { useNavigate } from "react-router-dom";
-import { Container, Typography, makeStyles } from "@material-ui/core"
+import { Typography, makeStyles } from "@material-ui/core"
 
 const useStyles = makeStyles({
     centerAlign: {
