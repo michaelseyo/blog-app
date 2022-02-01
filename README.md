@@ -1,5 +1,5 @@
 # Covid19 Blog app
-## It gives the current data outlook for covid19 as well as related news.
+## Giving the current outlook for covid19 as well as related news. You can also share your thoughts about the situation on the app by making posts.
 
 Deployed on: https://blog-app01.netlify.app/
 
