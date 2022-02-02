@@ -18,7 +18,7 @@ function PostsContainer({isAuth}) {
             }
         };
         getPosts();
-    }, []);
+    }, [postList]);
 
     return (
         <Container>
