@@ -23,7 +23,9 @@ function Login({setAuth}) {
             localStorage.setItem("isAuth", true);
             setAuth(true);
             navigate("/");
-        });
+        }).catch(
+            (error => alert(error.message))
+        );
     }
     return (
         <Container className={classes.page}>
