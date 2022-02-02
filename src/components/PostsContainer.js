@@ -29,7 +29,7 @@ function PostsContainer({isAuth}) {
                 Here's what people are saying...
             </Typography>
             {postList.map((post) => {
-                return <PostCard isAuth={isAuth} post={post} key={post.id}/>
+                return <PostCard key={post.id} isAuth={isAuth} post={post} />
             })} 
         </Container>
     );

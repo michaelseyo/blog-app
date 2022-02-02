@@ -14,7 +14,7 @@ const useStyles = makeStyles({
 function NewsCard({news}) {
     const classes = useStyles();
     const goToNews = () => {
-        window.open(news.url);   
+        window.open(news.link);   
     }
     
     return (
@@ -32,7 +32,7 @@ function NewsCard({news}) {
                         image={news.img}
                     />
                     <Typography>
-                        {news.description}
+                        {news.excerpt}
                     </Typography>
                 </CardContent>
             </Card>

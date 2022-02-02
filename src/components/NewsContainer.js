@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Container, Grid, Typography, makeStyles } from "@material-ui/core";
 import NewsCard from "./NewsCard";
 
-const REACT_APP_NEWS_API_KEY='260906d8dcc740eba39f51d19db0bbcd';
+const NEWS_CATCHER_API_KEY = "LAfq5CN3QzuFVPqQt4zN-Gf4BhU69DmeFmADRsV1C_o";
+const COVID = "covid-19";
 const useStyles = makeStyles({
     container: {
         marginTop: 10,
@@ -15,25 +16,24 @@ function NewsContainer() {
     const [newsList, setNews] = useState([]);
     useEffect(() => {
         const getNews = async () => {
-            const response = await fetch(`https://newsapi.org/v2/everything?q=covid-19&apiKey=${REACT_APP_NEWS_API_KEY}`);
+            const response = await fetch(`https://api.newscatcherapi.com/v2/search?q=${COVID}&lang=en&sort_by=rank`, {
+                "method": "GET",
+                "headers": {
+                    "x_api_key": NEWS_CATCHER_API_KEY
+                }
+            });
             const data = await response.json();
             const createdNews = data.articles.map(news => ({
+                id: news._id,
                 author: news.author,
                 title:  news.title,
-                description: news.description,
-                content: news.content,
-                date: news.publishedAt,
-                url: news.url,
-                img: news.urlToImage,
-                source: news.source.name
+                excerpt: news.excerpt,
+                date: news.published_date,
+                link: news.link,
+                img: news.media,
             }));
-            const filteredNews = createdNews.filter(news => 
-                news.source !== "Blogspot.com" && 
-                news.img !== "" &&
-                !news.author.includes("https://")
-            );
-            setNews(filteredNews);
-            console.log(filteredNews);
+            const topNews = createdNews.slice(0,9);
+            setNews(topNews);
         }
         getNews();
     }, []);
@@ -50,7 +50,7 @@ function NewsContainer() {
                 className={classes.container}
             >
                 {newsList.map(news => {
-                    return <NewsCard news={news}/>
+                    return <NewsCard key={news.id} news={news}/>
                 })}
             </Grid>
         </Container>
