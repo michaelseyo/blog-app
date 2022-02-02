@@ -5,7 +5,7 @@ import NewsContainer from "../components/NewsContainer";
 import PostsContainer from "../components/PostsContainer";
 
 const useStyles = makeStyles({
-    homeContainer: {
+    page: {
         marginTop: 80
     }
 });
@@ -14,7 +14,7 @@ function Home({isAuth}) {
     const classes = useStyles();
 
     return (
-        <Container className={classes.homeContainer}>
+        <Container className={classes.page}>
             <Infograph/>
             <NewsContainer/>
             <PostsContainer isAuth={isAuth}/>

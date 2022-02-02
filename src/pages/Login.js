@@ -2,15 +2,15 @@ import React from "react";
 import { auth, provider } from '../firebase-config';
 import { signInWithPopup } from 'firebase/auth';
 import { useNavigate } from "react-router-dom";
-import { Typography, makeStyles } from "@material-ui/core"
+import { Container, Typography, makeStyles } from "@material-ui/core"
 
 const useStyles = makeStyles({
     centerAlign: {
         display: "flex",
         justifyContent: "center"
     },
-    container: {
-        margin: 20
+    page: {
+        marginTop: 80
     }
 });
 
@@ -26,14 +26,14 @@ function Login({setAuth}) {
         });
     }
     return (
-        <div className={classes.container}>
+        <Container className={classes.page}>
             <Typography className={classes.centerAlign}> 
                 Sign in with Google to continue
             </Typography>
             <div className={classes.centerAlign}> 
                 <button className="login-with-google-btn" onClick={signInWithGoogle}>Sign in with Google</button>
             </div>
-        </div>
+        </Container>
     );
 }
 

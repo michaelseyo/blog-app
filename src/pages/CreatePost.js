@@ -7,6 +7,9 @@ import { makeStyles } from "@material-ui/core"
 import { format } from "date-fns"
 
 const useStyles = makeStyles({
+    page: {
+        marginTop: 80
+    },
     postHeader: {
         marginTop: 20
     },
@@ -59,7 +62,7 @@ function CreatePost({isAuth}) {
     }, []);
 
     return (
-        <Container>
+        <Container className={classes.page}>
             <Typography 
                 className={classes.postHeader}
                 variant="h4"
