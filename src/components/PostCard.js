@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { auth, db } from "../firebase-config";
 import { deleteDoc, doc } from "firebase/firestore";
 import { Card, CardHeader, Typography, makeStyles, IconButton, CardContent } from "@material-ui/core";
@@ -37,7 +37,10 @@ function PostCard({isAuth, post}) {
                     variant: "h4"
                 }}
                 action={
-                    isAuth && auth.currentUser.uid === post.author.id && <IconButton
+                    auth.currentUser && 
+                    isAuth && 
+                    auth.currentUser.uid === post.author.id && 
+                    <IconButton
                         onClick={() => {
                             deletePost(post.id)
                         }}
